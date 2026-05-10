@@ -131,6 +131,47 @@
   .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}
   .reveal.in{opacity:1;transform:none}
 
+  /* ===== CHATBOT ===== */
+  .cb-fab{position:fixed;right:18px;bottom:18px;width:60px;height:60px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:none;cursor:pointer;z-index:90;box-shadow:0 8px 30px rgba(0,0,0,.55),0 0 0 0 rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;transition:transform .25s;animation:cbPulse 2.5s ease-in-out infinite}
+  .cb-fab:hover{transform:scale(1.06)}
+  .cb-fab svg{width:28px;height:28px}
+  .cb-fab .cb-badge{position:absolute;top:-2px;right:-2px;background:var(--accent-2);color:#fff;font-size:11px;font-weight:800;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+  @keyframes cbPulse{0%,100%{box-shadow:0 8px 30px rgba(0,0,0,.55),0 0 0 0 rgba(255,255,255,.35)}50%{box-shadow:0 8px 30px rgba(0,0,0,.55),0 0 0 14px rgba(255,255,255,0)}}
+
+  .cb-panel{position:fixed;right:18px;bottom:90px;width:min(380px,calc(100vw - 36px));height:min(560px,calc(100dvh - 130px));background:#0a0a0a;border:1px solid var(--border);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.7);z-index:91;display:none;flex-direction:column;overflow:hidden;transform:translateY(20px) scale(.96);opacity:0;transition:transform .3s,opacity .3s}
+  .cb-panel.open{display:flex;transform:none;opacity:1}
+  .cb-header{padding:16px 18px;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+  .cb-header img{width:40px;height:40px;border-radius:50%;object-fit:contain;background:#000;padding:4px;border:1px solid var(--border)}
+  .cb-header .h-name{font-weight:700;font-size:15px}
+  .cb-header .h-status{font-size:11px;color:#4ade80;display:flex;align-items:center;gap:5px}
+  .cb-header .h-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}
+  .cb-close{margin-left:auto;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:22px;line-height:1;padding:4px 8px}
+  .cb-close:hover{color:var(--fg)}
+  .cb-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:#333 transparent}
+  .cb-body::-webkit-scrollbar{width:5px}
+  .cb-body::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+  .cb-msg{max-width:85%;padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.5;animation:cbIn .3s ease}
+  @keyframes cbIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .cb-msg.bot{background:#1a1a1a;color:var(--fg);border-bottom-left-radius:4px;align-self:flex-start;border:1px solid var(--border)}
+  .cb-msg.user{background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:4px;align-self:flex-end;font-weight:600}
+  .cb-msg.bot strong{color:var(--accent-2)}
+  .cb-msg .cta-btn{display:inline-block;margin-top:10px;padding:9px 14px;background:var(--accent);color:var(--accent-ink);border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;letter-spacing:.5px}
+  .cb-msg .cta-btn+.cta-btn{margin-left:6px}
+  .cb-typing{display:flex;gap:4px;padding:14px;background:#1a1a1a;border:1px solid var(--border);border-radius:14px;border-bottom-left-radius:4px;align-self:flex-start;width:fit-content}
+  .cb-typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:cbDot 1.2s infinite}
+  .cb-typing span:nth-child(2){animation-delay:.15s}
+  .cb-typing span:nth-child(3){animation-delay:.3s}
+  @keyframes cbDot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+  .cb-quick{padding:10px 14px 14px;border-top:1px solid var(--border);background:#0a0a0a;display:flex;flex-wrap:wrap;gap:6px;max-height:160px;overflow-y:auto}
+  .cb-quick button{background:transparent;border:1px solid var(--border);color:var(--fg);padding:8px 12px;border-radius:999px;font-size:12.5px;cursor:pointer;transition:all .2s;font-family:inherit;text-align:left}
+  .cb-quick button:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .cb-foot{padding:8px 14px;border-top:1px solid var(--border);text-align:center;font-size:10px;color:#555;letter-spacing:1.5px;text-transform:uppercase;background:#050505}
+  @media (max-width:480px){
+    .cb-panel{right:8px;left:8px;bottom:84px;width:auto}
+    .cb-fab{right:14px;bottom:14px;width:54px;height:54px}
+    .cb-fab svg{width:24px;height:24px}
+  }
+
   /* ======================= MOBILE OPTIMIZATIONS ======================= */
   @media (max-width:760px){
     .container{padding:0 18px}
@@ -378,6 +419,25 @@ Lleva tu rendimiento al siguiente nivel.
   © <span id="yr"></span> Power House Nutrición Deportiva · Lugo · Web por <a href="#" style="color:var(--accent)">Aetheria</a>
 </footer>
 
+<!-- CHATBOT -->
+<button class="cb-fab" id="cbFab" aria-label="Abrir chat con Power House">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+  <span class="cb-badge" id="cbBadge">1</span>
+</button>
+<div class="cb-panel" id="cbPanel" role="dialog" aria-label="Chat Power House">
+  <div class="cb-header">
+    <img src="assets/logo.png" alt="">
+    <div>
+      <div class="h-name">Coach Power House</div>
+      <div class="h-status">En línea · Lugo</div>
+    </div>
+    <button class="cb-close" id="cbClose" aria-label="Cerrar chat">×</button>
+  </div>
+  <div class="cb-body" id="cbBody"></div>
+  <div class="cb-quick" id="cbQuick"></div>
+  <div class="cb-foot">Powered by Power House Nutrición</div>
+</div>
+
 <script>
   // Forzar inicio en top al cargar (evita autoscroll por iframe/anchor)
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -395,6 +455,96 @@ Lleva tu rendimiento al siguiente nivel.
   // Reveal on scroll
   const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.15});
   document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+
+  // ============= CHATBOT POWER HOUSE =============
+  const CTA_GLOBAL = `<a class="cta-btn" href="tel:+34682420033">📞 Llamar</a><a class="cta-btn" href="https://maps.google.com/?q=Poeta+Curros+Enr%C3%ADquez+30,+27004+Lugo" target="_blank">📍 Ven a la tienda</a>`;
+  const CTA_IG = `<a class="cta-btn" href="https://instagram.com/powerhouse_nutrition_lugo" target="_blank">📸 Síguenos en IG</a>`;
+
+  const CB_TREE = {
+    welcome: {
+      msg: `¡Hola! 💪 Soy el coach virtual de <strong>Power House Nutrición</strong>. Estoy aquí para ayudarte a llegar a tu objetivo más rápido y con la suplementación correcta. ¿En qué puedo orientarte?`,
+      options: ['objetivo','suplementos','consulta','horarios','marcas','envios','principiante']
+    },
+    objetivo:{q:'🎯 ¿Cuál es tu objetivo?',msg:`Cuéntame qué buscas — todo lo que vendemos lo elegimos según el objetivo real del cliente, no por modas.`,
+      options:['perder_grasa','ganar_musculo','rendimiento','tonificar']},
+    perder_grasa:{q:'🔥 Quiero perder grasa',msg:`Perfecto. Para <strong>recomposición y pérdida de grasa</strong> los pilares son: proteína de calidad, un buen quemador-termogénico (cafeína + L-carnitina), y CLA o ácidos grasos. Pero lo más importante es <strong>combinarlo con tu déficit calórico</strong> — y eso te lo ajustamos en consulta gratis.<br><br>👉 Pásate por la tienda y te montamos un plan en 15 min.<br>${CTA_GLOBAL}`,
+      options:['plan_personalizado','marcas','que_proteina','volver']},
+    ganar_musculo:{q:'💪 Quiero ganar músculo',msg:`Entonces necesitas: <strong>proteína whey</strong> (1.6-2.2g por kg de peso al día), <strong>creatina monohidrato</strong> (3-5g diarios, no negociable), y un buen <strong>pre-entreno</strong> si entrenas pesado. Si te cuesta comer suficiente, un ganador (mass gainer) suma calorías limpias.<br><br>Trabajamos marcas premium con concentraciones reales — nada de polvos rellenos. <strong>Te explicamos qué tomar exactamente para tu peso y tipo de entreno.</strong><br>${CTA_GLOBAL}`,
+      options:['que_proteina','creatina','preentreno','plan_personalizado']},
+    rendimiento:{q:'⚡ Mejorar rendimiento',msg:`Para rendimiento deportivo el combo ganador es: <strong>creatina</strong> (fuerza + recuperación), <strong>BCAAs/EAAs</strong> intra-entreno, <strong>beta-alanina</strong> para resistencia muscular, y <strong>electrolitos</strong> si entrenas largo. Si haces deportes de resistencia, también carbohidratos de absorción rápida.<br><br>Te montamos el stack según tu deporte. ¿De qué deporte hablamos?`,
+      options:['plan_personalizado','marcas','volver']},
+    tonificar:{q:'✨ Tonificar',msg:`"Tonificar" = poco músculo + poca grasa. Lo conseguirás con <strong>proteína suficiente</strong> (whey o vegetal), un poco de <strong>creatina</strong> (sí, también para mujeres — no infla), y opcionalmente <strong>colágeno + magnesio</strong> para articulaciones y descanso.<br><br>Lo importante: <strong>fuerza + déficit suave</strong>. La consulta es gratis.<br>${CTA_GLOBAL}`,
+      options:['plan_personalizado','que_proteina','volver']},
+
+    suplementos:{q:'💊 Tipos de suplementos',msg:`En Power House trabajamos las categorías esenciales y las complementarias. ¿Sobre cuál quieres saber más?`,
+      options:['que_proteina','creatina','preentreno','quemadores','vitaminas','recuperacion']},
+    que_proteina:{q:'🥛 ¿Qué proteína me toca?',msg:`Depende:<br>· <strong>Whey concentrate</strong> → la más vendida, buena calidad/precio.<br>· <strong>Whey isolate</strong> → más pura, ideal si eres intolerante a lactosa.<br>· <strong>Caseína</strong> → para tomar antes de dormir (liberación lenta).<br>· <strong>Vegetal</strong> (guisante/arroz) → si eres vegano o sensible a lácteos.<br><br>Te enseñamos las marcas en tienda y eliges con conocimiento de causa. <strong>Sin presión.</strong><br>${CTA_GLOBAL}`,
+      options:['marcas','plan_personalizado','volver']},
+    creatina:{q:'⚙️ ¿Creatina sí o no?',msg:`<strong>Sí, casi siempre.</strong> Es el suplemento con más respaldo científico que existe. 3-5g de <strong>creatina monohidrato</strong> al día (mejor con post-entreno o desayuno). Aumenta fuerza, masa magra y rendimiento, y es seguro a largo plazo.<br><br>No necesitas las "creatinas patentadas" caras — la monohidrato pura va de cine. Tenemos varias marcas a buen precio.<br>${CTA_GLOBAL}`,
+      options:['marcas','que_proteina','volver']},
+    preentreno:{q:'🚀 Pre-entreno',msg:`Un buen pre-entreno te da energía, foco y bombeo. Lleva: <strong>cafeína</strong> (200-400mg), <strong>beta-alanina</strong> (cosquilleo, normal), <strong>citrulina</strong> (bombeo) y a veces <strong>tirosina</strong> (foco).<br><br>Si eres sensible a la cafeína, los hay <strong>sin estimulantes</strong> (stim-free) — también muy buenos. Te orientamos según tu hora de entreno.<br>${CTA_GLOBAL}`,
+      options:['marcas','plan_personalizado','volver']},
+    quemadores:{q:'🔥 Quemadores',msg:`Un quemador NO es magia — es un acelerador. Solo funciona <strong>con déficit calórico</strong>. Los buenos llevan: <strong>cafeína, L-carnitina, té verde, CLA, sinefrina</strong>. Hay versiones sin estimulantes para tomar de noche.<br><br>En tienda te explicamos cuál encaja con tu rutina y cuál evitar.<br>${CTA_GLOBAL}`,
+      options:['plan_personalizado','perder_grasa','volver']},
+    vitaminas:{q:'🍊 Vitaminas y salud',msg:`Lo básico que recomendamos a casi todo deportista: <strong>vitamina D3+K2</strong> (sobre todo en invierno), <strong>magnesio</strong> (descanso + recuperación), <strong>omega 3</strong> (inflamación) y un <strong>multivitamínico</strong> de calidad.<br><br>Hay marcas pro que merecen la pena y otras que son colorete. Te enseñamos las buenas.<br>${CTA_GLOBAL}`,
+      options:['marcas','volver']},
+    recuperacion:{q:'🛌 Recuperación',msg:`Para recuperar mejor: <strong>BCAAs/EAAs</strong> intra y post entreno, <strong>glutamina</strong>, <strong>magnesio</strong> antes de dormir, <strong>colágeno</strong> + vitamina C para articulaciones. Y dormir 7-8h, que ningún suplemento sustituye eso.<br>${CTA_GLOBAL}`,
+      options:['marcas','volver']},
+
+    consulta:{q:'🗓 Consulta y asesoramiento',msg:`<strong>La consulta inicial es GRATIS</strong> — vienes a la tienda, te escuchamos, miramos tu objetivo, peso, edad y rutina, y te montamos un plan suplementario realista. Sin compromiso de compra. Si luego compras algo, te explicamos cómo y cuándo tomarlo.<br><br>📍 Poeta Curros Enríquez, 30 — Lugo`,
+      options:['horarios','plan_personalizado','volver']},
+    plan_personalizado:{q:'📋 Plan personalizado',msg:`Para hacerte un plan necesitamos: <strong>tu objetivo, peso actual, edad, frecuencia y tipo de entreno, alergias o intolerancias</strong>, y presupuesto. Lo hacemos cara a cara en 15-20 minutos. <strong>Gratis y sin compromiso.</strong>${CTA_GLOBAL}`,
+      options:['horarios','volver']},
+
+    horarios:{q:'🕐 Horarios y dirección',msg:`<strong>Horario:</strong><br>Lun – Vie · 10:00 – 14:00<br>Lun – Vie · 17:00 – 20:00<br>Cerrado fin de semana.<br><br><strong>Dirección:</strong><br>Poeta Curros Enríquez, 30<br>27004 Lugo<br><br>${CTA_GLOBAL}`,
+      options:['volver']},
+
+    marcas:{q:'🏷 ¿Qué marcas tenéis?',msg:`Trabajamos con las marcas top del mercado europeo y americano: las que tienen <strong>análisis de terceros, concentraciones reales y trayectoria</strong>. Nada de marcas blancas ni "polvitos" baratos. <br><br>👉 Lo mejor es que te pases y te enseñamos el catálogo en mano. Cada mes meten cosas nuevas.<br>${CTA_GLOBAL}`,
+      options:['volver']},
+
+    envios:{q:'📦 ¿Hacéis envíos?',msg:`Ahora mismo trabajamos sobre todo en <strong>tienda física</strong> en Lugo, donde podemos asesorarte como toca. Si no puedes pasarte, escríbenos por <strong>Instagram</strong> y vemos cómo hacértelo llegar.<br>${CTA_GLOBAL} ${CTA_IG}`,
+      options:['volver']},
+
+    principiante:{q:'🆕 Soy principiante',msg:`¡Bienvenido! Lo primero: <strong>no necesitas 10 botes</strong>. Para empezar, con <strong>proteína + creatina + un multivitamínico</strong> vas sobrado. Lo demás se va sumando según tu progreso y objetivo.<br><br>Y entrenamiento + descanso + comida. Los suplementos son la guinda, no el pastel. Te lo explicamos todo en consulta gratis.<br>${CTA_GLOBAL}`,
+      options:['plan_personalizado','que_proteina','creatina','volver']},
+
+    volver:{q:'↩️ Volver al menú',msg:`¿Sobre qué más te gustaría saber?`,options:['objetivo','suplementos','consulta','horarios','marcas','principiante']}
+  };
+
+  const cbFab=document.getElementById('cbFab');
+  const cbPanel=document.getElementById('cbPanel');
+  const cbBody=document.getElementById('cbBody');
+  const cbQuick=document.getElementById('cbQuick');
+  const cbBadge=document.getElementById('cbBadge');
+  const cbClose=document.getElementById('cbClose');
+
+  let cbOpened=false;
+  const cbScroll=()=>{cbBody.scrollTop=cbBody.scrollHeight};
+  const cbType=()=>{const t=document.createElement('div');t.className='cb-typing';t.innerHTML='<span></span><span></span><span></span>';cbBody.appendChild(t);cbScroll();return t};
+  const cbAdd=(html,who='bot')=>{const m=document.createElement('div');m.className='cb-msg '+who;m.innerHTML=html;cbBody.appendChild(m);cbScroll()};
+  const cbQuicks=(keys)=>{cbQuick.innerHTML='';keys.forEach(k=>{const node=CB_TREE[k];if(!node)return;const b=document.createElement('button');b.textContent=node.q;b.onclick=()=>cbGo(k);cbQuick.appendChild(b)})};
+
+  const cbGo=(key)=>{
+    const node=CB_TREE[key];if(!node)return;
+    cbAdd(node.q,'user');
+    cbQuick.innerHTML='';
+    const t=cbType();
+    setTimeout(()=>{t.remove();cbAdd(node.msg,'bot');cbQuicks(node.options||[])}, 600+Math.random()*500);
+  };
+
+  const cbOpen=()=>{
+    cbPanel.classList.add('open');
+    cbBadge.style.display='none';
+    if(!cbOpened){
+      cbOpened=true;
+      const t=cbType();
+      setTimeout(()=>{t.remove();cbAdd(CB_TREE.welcome.msg,'bot');cbQuicks(CB_TREE.welcome.options)},700);
+    }
+  };
+  cbFab.onclick=cbOpen;
+  cbClose.onclick=()=>cbPanel.classList.remove('open');
+  // Auto-pulso del badge: muestra 1 al cargar, parpadea cada 30s si no se ha abierto
+  setInterval(()=>{if(!cbOpened){cbFab.style.animation='none';void cbFab.offsetWidth;cbFab.style.animation=''}},30000);
 
   // ============= VIDEO BACKGROUND (autoplay loop, iOS-safe) =============
   const video = document.getElementById('heroVideo');
