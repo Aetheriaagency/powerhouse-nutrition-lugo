@@ -40,19 +40,20 @@
   .nav-cta{padding:10px 18px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;font-size:14px}
   @media (max-width:760px){.nav-links{display:none}}
 
-  /* HERO SCROLL-VIDEO */
-  .hero-wrap{position:relative;height:340vh}                 /* Espacio largo para hacer scrubbing */
-  .hero-sticky{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:#000}
-  .hero-canvas-host{position:absolute;inset:0}
-  .hero-canvas-host canvas, .hero-canvas-host video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  /* VIDEO BACKGROUND FIJO (siempre detrás de todo) */
+  .video-bg{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:-2;background:#000;overflow:hidden}
+  .video-bg video, .video-bg canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  .video-bg .vignette{position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 50%,transparent 20%,rgba(0,0,0,.55) 100%);pointer-events:none}
   .hero-fallback{position:absolute;inset:0;background:
     radial-gradient(60% 60% at 30% 30%,rgba(212,255,0,.25),transparent 60%),
     radial-gradient(80% 80% at 70% 70%,rgba(255,59,59,.25),transparent 60%),
     linear-gradient(180deg,#111 0%,#000 100%);
-    animation:bgshift 12s ease-in-out infinite alternate}
+    animation:bgshift 12s ease-in-out infinite alternate;transition:opacity .6s}
   @keyframes bgshift{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(40deg)}}
-  .hero-vignette{position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 50%,transparent 30%,rgba(0,0,0,.65) 100%);pointer-events:none}
-  .hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 24px 90px;text-align:center;z-index:2}
+
+  /* HERO (sección normal sobre el fondo fijo) */
+  .hero-wrap{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:120px 24px 90px;text-align:center}
+  .hero-content{position:relative;z-index:2;max-width:1100px}
   .hero-eyebrow{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);opacity:.9;margin-bottom:18px}
   .hero-title{font-size:clamp(54px,11vw,150px);max-width:1100px}
   .hero-title em{font-style:normal;color:var(--accent)}
@@ -60,8 +61,10 @@
   .hero-scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.45);text-transform:uppercase;animation:fade 2.4s ease-in-out infinite}
   @keyframes fade{0%,100%{opacity:.25}50%{opacity:1}}
 
+  /* SECCIONES (semi-transparentes para dejar ver el video) */
+  section{position:relative;z-index:1}
   /* IG CARD */
-  .ig-section{padding:120px 0;background:linear-gradient(180deg,#000,#0a0a0a)}
+  .ig-section{padding:120px 0;background:linear-gradient(180deg,rgba(0,0,0,.85),rgba(10,10,10,.92))}
   .ig-card{max-width:520px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;backdrop-filter:blur(20px)}
   .ig-head{display:flex;gap:18px;align-items:center}
   .ig-avatar{position:relative;width:96px;height:96px;border-radius:999px;padding:3px;background:conic-gradient(from 0deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5,#feda75);animation:spin 8s linear infinite}
@@ -87,13 +90,13 @@
   .section-title{font-size:clamp(40px,7vw,90px);text-align:center;margin-bottom:20px}
   .section-sub{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 60px;font-size:16px}
 
-  /* COMUNIDAD */
-  .community{padding:120px 0;text-align:center}
+  /* COMUNIDAD (transparente, deja ver el video) */
+  .community{padding:160px 0;text-align:center;background:linear-gradient(180deg,rgba(10,10,10,.92),rgba(0,0,0,.4) 50%,rgba(10,10,10,.92))}
   .total-followers{font-size:clamp(80px,16vw,200px);background:linear-gradient(180deg,var(--fg),var(--muted));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .total-label{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-top:-10px}
 
   /* SERVICIOS */
-  .services{padding:120px 0;background:var(--bg-2)}
+  .services{padding:120px 0;background:rgba(17,17,17,.94)}
   .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
   .service{padding:32px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:transform .3s,border-color .3s}
   .service:hover{transform:translateY(-6px);border-color:var(--accent)}
@@ -102,15 +105,15 @@
   .service p{color:var(--muted);font-size:15px;line-height:1.55}
   .service-price{margin-top:18px;font-weight:700;font-size:20px;color:var(--accent)}
 
-  /* GALERIA */
-  .gallery{padding:120px 0}
+  /* GALERIA (deja ver el video alrededor) */
+  .gallery{padding:160px 0;background:linear-gradient(180deg,rgba(17,17,17,.94),rgba(0,0,0,.3) 50%,rgba(10,10,10,.94))}
   .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
   .gallery-grid div{aspect-ratio:1;background:#1a1a1a center/cover;border-radius:8px;overflow:hidden;transition:transform .4s,filter .4s}
   .gallery-grid div:hover{transform:scale(1.02);filter:brightness(1.15)}
   @media (max-width:760px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
 
   /* CONTACTO */
-  .contact{padding:140px 0;background:linear-gradient(180deg,#000,#0a0a0a);text-align:center}
+  .contact{padding:140px 0;background:linear-gradient(180deg,rgba(10,10,10,.94),rgba(0,0,0,.98));text-align:center}
   .contact h2{font-size:clamp(48px,9vw,120px)}
   .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:60px}
   .contact-card{padding:30px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
@@ -139,25 +142,24 @@
   </div>
 </nav>
 
-<!-- HERO SCROLL-VIDEO -->
+<!-- VIDEO BACKGROUND FIJO (siempre detrás de toda la web) -->
+<div class="video-bg" aria-hidden="true">
+  <div class="hero-fallback" id="heroFallback"></div>
+  <video id="heroVideo" muted playsinline autoplay loop preload="auto" disablepictureinpicture x-webkit-airplay="deny" webkit-playsinline>
+    <source src="assets/hero-video/hero-mobile.mp4" type="video/mp4">
+    <source src="assets/hero-video/hero-mobile.webm" type="video/webm">
+  </video>
+  <div class="vignette"></div>
+</div>
+
+<!-- HERO -->
 <section class="hero-wrap">
-  <div class="hero-sticky">
-    <div class="hero-canvas-host" id="canvasHost">
-      <div class="hero-fallback" id="heroFallback"></div>
-      <video id="heroVideo" muted playsinline autoplay loop preload="auto" disablepictureinpicture x-webkit-airplay="deny" webkit-playsinline>
-        <source src="assets/hero-video/hero-mobile.mp4" type="video/mp4">
-        <source src="assets/hero-video/hero-mobile.webm" type="video/webm">
-      </video>
-      <canvas id="heroCanvas" style="display:none"></canvas>
-    </div>
-    <div class="hero-vignette"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">Powerhouse Nutrition · Lugo</div>
-      <h1 class="display hero-title">Tu cuerpo<br>es <em>tu mejor</em><br>inversión</h1>
-      <p class="hero-sub">[ESLOGAN/DESCRIPCIÓN AQUÍ — sustituir por la frase real del cliente]</p>
-    </div>
-    <div class="hero-scroll-hint">SCROLL</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Powerhouse Nutrition · Lugo</div>
+    <h1 class="display hero-title">Tu cuerpo<br>es <em>tu mejor</em><br>inversión</h1>
+    <p class="hero-sub">[ESLOGAN/DESCRIPCIÓN AQUÍ — sustituir por la frase real del cliente]</p>
   </div>
+  <div class="hero-scroll-hint">SCROLL</div>
 </section>
 
 <!-- TARJETA INSTAGRAM -->
@@ -274,36 +276,21 @@ Lo que ofrece en una línea</div>
   const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.15});
   document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
 
-  // ============= SCROLL-VIDEO HERO (video currentTime scrubbing, iOS-safe) =============
+  // ============= VIDEO BACKGROUND (autoplay loop, iOS-safe) =============
   const video = document.getElementById('heroVideo');
   const fallback = document.getElementById('heroFallback');
-  const heroWrap = document.querySelector('.hero-wrap');
-  let videoReady = false;
-  let videoDuration = 0;
-  let scrubMode = false; // pasamos a scrub solo cuando el usuario empieza a scrollear
 
-  const showVideo = () => {
-    fallback.style.transition = 'opacity .6s';
-    fallback.style.opacity = '0';
-  };
+  const hideFallback = () => { fallback.style.opacity = '0'; };
+  video.addEventListener('loadeddata', hideFallback);
+  video.addEventListener('playing', hideFallback);
 
-  const onMeta = () => {
-    videoDuration = video.duration || 0;
-    if (videoDuration > 0) videoReady = true;
-  };
-  video.addEventListener('loadedmetadata', onMeta);
-  video.addEventListener('durationchange', onMeta);
-  video.addEventListener('loadeddata', showVideo);
-  video.addEventListener('playing', showVideo);
-
-  // Kick iOS: intentar autoplay (muted), si falla esperamos al primer touch
   const primeVideo = () => {
     const p = video.play();
-    if (p && p.then) p.then(()=>{ showVideo(); }).catch(()=>{ /* esperaremos al touch */ });
+    if (p && p.then) p.then(hideFallback).catch(()=>{});
   };
   primeVideo();
 
-  // Si iOS bloquea autoplay, el primer touch lo desbloquea
+  // iOS: si autoplay falla, el primer toque lo activa
   const touchPrime = () => {
     primeVideo();
     document.removeEventListener('touchstart', touchPrime);
@@ -312,42 +299,8 @@ Lo que ofrece en una línea</div>
   document.addEventListener('touchstart', touchPrime, { once: true, passive: true });
   document.addEventListener('click', touchPrime, { once: true });
 
-  let ticking = false;
-  let scrollIdleTimer = null;
-  const onScrollVideo = () => {
-    if (!videoReady || ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      const r = heroWrap.getBoundingClientRect();
-      const total = heroWrap.offsetHeight - innerHeight;
-      const p = Math.min(1, Math.max(0, -r.top / total));
-      // Activamos scrub mode al primer scroll real: pausamos el loop y tomamos control
-      if (!scrubMode && p > 0.01) {
-        scrubMode = true;
-        try { video.pause(); } catch(e){}
-        showVideo();
-      }
-      if (scrubMode) {
-        try { video.currentTime = p * videoDuration; } catch(e){}
-      }
-      // Si el usuario sube al top, dejamos volver al loop autoplay
-      if (scrubMode && p < 0.005) {
-        scrubMode = false;
-        try { video.play(); } catch(e){}
-      }
-      ticking = false;
-    });
-  };
-  addEventListener('scroll', onScrollVideo, { passive: true });
-
-  // ============= FALLBACK: Canvas + frame sequence (más suave en iOS) =============
-  // Cuando tengas frames optimizados: pon assets/hero-frames/frame-001.webp...
-  const FRAME_COUNT = 0;
-  const FRAME_PATH  = 'assets/hero-frames/frame-';
-  const FRAME_EXT   = '.webp';
-
-  if (FRAME_COUNT > 0) {
-    video.style.display='none';
+  // (Reservado para futuro: secuencia de frames si quisiéramos scroll-driven real)
+  if (false) {
     const canvas = document.getElementById('heroCanvas');
     const fallback = document.getElementById('heroFallback');
     const ctx = canvas.getContext('2d');
