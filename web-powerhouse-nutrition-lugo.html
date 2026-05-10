@@ -71,7 +71,7 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .ig-avatar img{width:100%;height:100%;border-radius:999px;object-fit:cover;border:3px solid #000}
   .ig-avatar.ph{background:conic-gradient(from 0deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5,#feda75);display:flex;align-items:center;justify-content:center}
-  .ig-avatar.ph::after{content:"";position:absolute;inset:3px;border-radius:999px;background:#222 url('assets/instagram/profile.jpg') center/cover no-repeat;border:3px solid #000}
+  .ig-avatar.ph::after{content:"P";position:absolute;inset:3px;border-radius:999px;background:linear-gradient(135deg,#1a1a1a,#2a2a2a) center/cover no-repeat;background-image:url('assets/instagram/profile.jpg'),linear-gradient(135deg,#1a1a1a,#2a2a2a);background-size:cover;border:3px solid #000;display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:34px;color:var(--accent);text-shadow:0 0 20px rgba(212,255,0,.4)}
   .ig-stats{display:flex;gap:20px;margin-top:6px;color:var(--muted);font-size:14px}
   .ig-stats b{color:var(--fg);display:block;font-size:18px}
   .ig-name{display:flex;align-items:center;gap:8px;margin-top:18px;font-weight:700;font-size:18px}
@@ -125,6 +125,72 @@
   /* SCROLL REVEAL */
   .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}
   .reveal.in{opacity:1;transform:none}
+
+  /* ======================= MOBILE OPTIMIZATIONS ======================= */
+  @media (max-width:760px){
+    .container{padding:0 18px}
+    .nav-inner{padding:12px 18px}
+    .brand{font-size:14px;letter-spacing:.3px}
+    .nav-cta{padding:8px 14px;font-size:13px}
+
+    .hero-wrap{padding:100px 20px 80px;min-height:100vh;min-height:100dvh}
+    .hero-eyebrow{font-size:11px;letter-spacing:3px;margin-bottom:14px}
+    .hero-title{font-size:clamp(42px,11.5vw,72px);line-height:.92}
+    .hero-sub{font-size:14px;margin-top:14px}
+    .hero-scroll-hint{font-size:10px;letter-spacing:2px;bottom:18px}
+
+    /* Tarjeta IG mobile-friendly */
+    .ig-section{padding:80px 0}
+    .ig-card{padding:20px;border-radius:18px;margin:0 6px}
+    .ig-head{gap:18px;flex-direction:column;align-items:center;text-align:center}
+    .ig-avatar{width:88px;height:88px}
+    .ig-stats{gap:24px;font-size:12px;justify-content:center;width:100%;margin-top:6px}
+    .ig-stats div{text-align:center;flex:1}
+    .ig-stats b{font-size:16px}
+    .ig-name{font-size:17px;margin-top:14px;justify-content:center}
+    .ig-handle{font-size:13px;text-align:center}
+    .ig-bio{font-size:14px;line-height:1.5;margin-top:12px;text-align:center}
+    .ig-actions{flex-wrap:wrap;gap:6px}
+    .ig-btn{padding:10px 8px;font-size:13px;flex:1 1 30%}
+    .ig-grid{gap:3px;margin-top:14px}
+
+    /* Sección comunidad */
+    .community{padding:90px 0}
+    .total-followers{font-size:clamp(64px,18vw,120px);line-height:1}
+    .total-label{font-size:11px;letter-spacing:3px;margin-top:6px}
+
+    /* Section titles */
+    .section-title{font-size:clamp(36px,9.5vw,64px);margin-bottom:14px}
+    .section-sub{font-size:14px;margin-bottom:40px;padding:0 12px}
+
+    /* Servicios 1 col */
+    .services{padding:80px 0}
+    .services-grid{grid-template-columns:1fr;gap:14px}
+    .service{padding:24px}
+    .service h3{font-size:20px}
+    .service p{font-size:14px}
+    .service-price{font-size:18px}
+
+    /* Galería 2 cols compactas */
+    .gallery{padding:80px 0}
+    .gallery-grid{gap:6px}
+
+    /* Contacto 1-2 cols */
+    .contact{padding:90px 0}
+    .contact h2{font-size:clamp(48px,13vw,90px)}
+    .contact-grid{grid-template-columns:1fr;gap:12px;margin-top:40px}
+    .contact-card{padding:22px}
+    .contact-card .label{font-size:11px;letter-spacing:2px}
+    .contact-card .value{font-size:16px;margin-top:6px;word-break:break-word}
+
+    footer{padding:30px 18px;font-size:12px}
+  }
+
+  /* iOS: respetar safe-area en notch */
+  @supports (padding:max(0px)){
+    .nav-inner{padding-top:max(12px,env(safe-area-inset-top))}
+    footer{padding-bottom:max(30px,env(safe-area-inset-bottom))}
+  }
 </style>
 </head>
 <body>
