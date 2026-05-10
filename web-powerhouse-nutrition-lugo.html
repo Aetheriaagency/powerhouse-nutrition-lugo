@@ -369,7 +369,7 @@ Lleva tu rendimiento al siguiente nivel.
       </div>
     </div>
     <div style="margin-top:50px;border-radius:14px;overflow:hidden;border:1px solid var(--border);max-width:900px;margin-left:auto;margin-right:auto">
-      <iframe src="https://www.google.com/maps?q=Poeta+Curros+Enr%C3%ADquez+30,+27004+Lugo&output=embed" width="100%" height="320" style="border:0;display:block;filter:invert(.92) hue-rotate(180deg)" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <iframe src="https://www.google.com/maps?q=Poeta+Curros+Enr%C3%ADquez+30,+27004+Lugo&output=embed" width="100%" height="320" style="border:0;display:block;filter:invert(.92) hue-rotate(180deg)" loading="lazy" tabindex="-1" aria-hidden="true" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 </section>
@@ -379,6 +379,12 @@ Lleva tu rendimiento al siguiente nivel.
 </footer>
 
 <script>
+  // Forzar inicio en top al cargar (evita autoscroll por iframe/anchor)
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(null,'',location.pathname);
+  window.scrollTo(0,0);
+  addEventListener('load',()=>setTimeout(()=>window.scrollTo(0,0),0));
+
   // NAV scroll state
   const nav=document.getElementById('nav');
   addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
