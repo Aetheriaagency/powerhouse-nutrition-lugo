@@ -10,16 +10,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0a0a0a;
-    --bg-2:#111;
-    --fg:#f5f5f5;
-    --muted:#9a9a9a;
-    --accent:#d4ff00;     /* PLACEHOLDER — ajustar a colores reales */
-    --accent-2:#ff3b3b;
-    --card:rgba(255,255,255,.04);
-    --border:rgba(255,255,255,.08);
+    --bg:#050505;
+    --bg-2:#0d0d0d;
+    --fg:#f2f2f2;
+    --muted:#888;
+    --accent:#ffffff;        /* Blanco grunge — match con logo */
+    --accent-ink:#000;       /* Texto sobre acento */
+    --accent-2:#c1121f;      /* Rojo bermellón gym, uso muy puntual */
+    --card:rgba(255,255,255,.045);
+    --border:rgba(255,255,255,.1);
     --max:1180px;
-    --radius:20px;
+    --radius:14px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#000;color:var(--fg);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -32,12 +33,13 @@
   .nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(10,10,10,.55);border-bottom:1px solid transparent;transition:border-color .3s}
   .nav.scrolled{border-bottom-color:var(--border)}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:var(--max);margin:0 auto}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
-  .brand-dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 18px var(--accent)}
-  .nav-links{display:flex;gap:28px;font-size:14px}
-  .nav-links a{opacity:.75;transition:opacity .2s}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-logo{height:38px;width:auto;display:block;filter:drop-shadow(0 0 12px rgba(255,255,255,.15))}
+  .nav-links{display:flex;gap:28px;font-size:13px;letter-spacing:1px;text-transform:uppercase;font-weight:600}
+  .nav-links a{opacity:.7;transition:opacity .2s}
   .nav-links a:hover{opacity:1}
-  .nav-cta{padding:10px 18px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;font-size:14px}
+  .nav-cta{padding:10px 18px;border-radius:4px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;border:2px solid var(--accent);transition:all .2s}
+  .nav-cta:hover{background:transparent;color:var(--accent)}
   @media (max-width:760px){.nav-links{display:none}}
 
   /* VIDEO BACKGROUND FIJO (siempre detrás del contenido) */
@@ -56,7 +58,7 @@
   .hero-content{position:relative;z-index:2;max-width:1100px}
   .hero-eyebrow{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);opacity:.9;margin-bottom:18px}
   .hero-title{font-size:clamp(54px,11vw,150px);max-width:1100px}
-  .hero-title em{font-style:normal;color:var(--accent)}
+  .hero-title em{font-style:normal;color:var(--accent-2);text-shadow:0 0 30px rgba(193,18,31,.4)}
   .hero-sub{margin-top:18px;font-size:clamp(15px,1.6vw,18px);color:var(--muted);max-width:560px}
   .hero-scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.45);text-transform:uppercase;animation:fade 2.4s ease-in-out infinite}
   @keyframes fade{0%,100%{opacity:.25}50%{opacity:1}}
@@ -77,13 +79,13 @@
   .ig-name{display:flex;align-items:center;gap:8px;margin-top:18px;font-weight:700;font-size:18px}
   .verified{width:20px;height:20px;border-radius:999px;background:linear-gradient(135deg,#1da1f2,#0a66c2);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
   .ig-handle{color:var(--muted);font-size:14px;margin-top:2px}
-  .ig-handle a{color:var(--accent)}
+  .ig-handle a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
   .ig-bio{margin-top:14px;font-size:15px;line-height:1.55;white-space:pre-wrap}
   .ig-actions{display:flex;gap:8px;margin-top:18px}
   .ig-btn{flex:1;padding:10px;text-align:center;border-radius:10px;background:#1f1f1f;color:#fff;font-weight:600;font-size:14px;border:1px solid var(--border);transition:background .2s}
-  .ig-btn.primary{background:var(--accent);color:#000;border-color:var(--accent)}
+  .ig-btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
   .ig-btn:hover{background:#2a2a2a}
-  .ig-btn.primary:hover{background:#e9ff4a}
+  .ig-btn.primary:hover{background:#ddd}
   .ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:18px;border-radius:12px;overflow:hidden}
   .ig-grid div{aspect-ratio:1;background:#1a1a1a center/cover}
 
@@ -100,10 +102,10 @@
   .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
   .service{padding:32px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:transform .3s,border-color .3s}
   .service:hover{transform:translateY(-6px);border-color:var(--accent)}
-  .service-num{font-size:13px;color:var(--accent);letter-spacing:2px;font-weight:600}
-  .service h3{font-size:24px;margin-top:8px;margin-bottom:12px}
+  .service-num{font-size:13px;color:var(--accent-2);letter-spacing:2px;font-weight:700}
+  .service h3{font-size:24px;margin-top:8px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
   .service p{color:var(--muted);font-size:15px;line-height:1.55}
-  .service-price{margin-top:18px;font-weight:700;font-size:20px;color:var(--accent)}
+  .service-price{margin-top:18px;font-weight:800;font-size:22px;color:var(--accent);font-family:'Anton',sans-serif;letter-spacing:1px}
 
   /* GALERIA (deja ver el video alrededor) */
   .gallery{padding:160px 0;background:linear-gradient(180deg,rgba(17,17,17,.94),rgba(0,0,0,.3) 50%,rgba(10,10,10,.94))}
@@ -197,7 +199,10 @@
 
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <div class="brand"><span class="brand-dot"></span> POWERHOUSE</div>
+    <a class="brand" href="#">
+      <img class="brand-logo" src="assets/logo.png" alt="Powerhouse Nutrition Lugo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="brand-fallback" style="display:none;align-items:baseline;gap:6px;font-family:'Anton',sans-serif;letter-spacing:1px"><span style="font-size:20px;color:#fff">POWERHOUSE</span><span style="font-size:11px;color:var(--accent-2);letter-spacing:2px">LUGO</span></span>
+    </a>
     <div class="nav-links">
       <a href="#sobre">Sobre</a>
       <a href="#servicios">Servicios</a>
