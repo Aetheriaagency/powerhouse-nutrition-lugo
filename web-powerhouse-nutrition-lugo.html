@@ -144,9 +144,9 @@
   <div class="hero-sticky">
     <div class="hero-canvas-host" id="canvasHost">
       <div class="hero-fallback" id="heroFallback"></div>
-      <video id="heroVideo" muted playsinline preload="auto" disablepictureinpicture x-webkit-airplay="deny">
-        <source src="assets/hero-video/hero-mobile.webm" type="video/webm">
+      <video id="heroVideo" muted playsinline autoplay loop preload="auto" disablepictureinpicture x-webkit-airplay="deny" webkit-playsinline>
         <source src="assets/hero-video/hero-mobile.mp4" type="video/mp4">
+        <source src="assets/hero-video/hero-mobile.webm" type="video/webm">
       </video>
       <canvas id="heroCanvas" style="display:none"></canvas>
     </div>
@@ -274,23 +274,46 @@ Lo que ofrece en una línea</div>
   const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.15});
   document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
 
-  // ============= SCROLL-VIDEO HERO (video currentTime scrubbing) =============
+  // ============= SCROLL-VIDEO HERO (video currentTime scrubbing, iOS-safe) =============
   const video = document.getElementById('heroVideo');
   const fallback = document.getElementById('heroFallback');
   const heroWrap = document.querySelector('.hero-wrap');
   let videoReady = false;
   let videoDuration = 0;
+  let scrubMode = false; // pasamos a scrub solo cuando el usuario empieza a scrollear
 
-  video.addEventListener('loadedmetadata', () => {
-    videoDuration = video.duration || 0;
-    videoReady = true;
-    fallback.style.opacity = '0';
+  const showVideo = () => {
     fallback.style.transition = 'opacity .6s';
-  });
-  // Forzar primera frame
-  video.addEventListener('canplay', () => { try { video.currentTime = 0.01; } catch(e){} });
+    fallback.style.opacity = '0';
+  };
+
+  const onMeta = () => {
+    videoDuration = video.duration || 0;
+    if (videoDuration > 0) videoReady = true;
+  };
+  video.addEventListener('loadedmetadata', onMeta);
+  video.addEventListener('durationchange', onMeta);
+  video.addEventListener('loadeddata', showVideo);
+  video.addEventListener('playing', showVideo);
+
+  // Kick iOS: intentar autoplay (muted), si falla esperamos al primer touch
+  const primeVideo = () => {
+    const p = video.play();
+    if (p && p.then) p.then(()=>{ showVideo(); }).catch(()=>{ /* esperaremos al touch */ });
+  };
+  primeVideo();
+
+  // Si iOS bloquea autoplay, el primer touch lo desbloquea
+  const touchPrime = () => {
+    primeVideo();
+    document.removeEventListener('touchstart', touchPrime);
+    document.removeEventListener('click', touchPrime);
+  };
+  document.addEventListener('touchstart', touchPrime, { once: true, passive: true });
+  document.addEventListener('click', touchPrime, { once: true });
 
   let ticking = false;
+  let scrollIdleTimer = null;
   const onScrollVideo = () => {
     if (!videoReady || ticking) return;
     ticking = true;
@@ -298,8 +321,20 @@ Lo que ofrece en una línea</div>
       const r = heroWrap.getBoundingClientRect();
       const total = heroWrap.offsetHeight - innerHeight;
       const p = Math.min(1, Math.max(0, -r.top / total));
-      const t = p * videoDuration;
-      try { video.currentTime = t; } catch(e){}
+      // Activamos scrub mode al primer scroll real: pausamos el loop y tomamos control
+      if (!scrubMode && p > 0.01) {
+        scrubMode = true;
+        try { video.pause(); } catch(e){}
+        showVideo();
+      }
+      if (scrubMode) {
+        try { video.currentTime = p * videoDuration; } catch(e){}
+      }
+      // Si el usuario sube al top, dejamos volver al loop autoplay
+      if (scrubMode && p < 0.005) {
+        scrubMode = false;
+        try { video.play(); } catch(e){}
+      }
       ticking = false;
     });
   };
